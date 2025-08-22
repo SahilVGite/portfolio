@@ -169,14 +169,21 @@ const Projects = () => {
 
         {/* Read More Button */}
         {visibleProjects.length < projects.length && (
-          <div className="text-center mt-8">
-            <button
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mt-8">
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleReadMore}
               className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
             >
               Show More
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         )}
       </div>
     </section>

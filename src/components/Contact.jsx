@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const {
@@ -12,10 +13,29 @@ const Contact = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission here
-    alert('Yet this is just a demo! Please contact me through my email or phone.');
-    reset();
+    emailjs
+      .send(
+        "service_czevp5m",   // from EmailJS dashboard
+        "template_8usln37",  // your template ID
+        {
+          from_name: data.name,
+          from_email: data.email,
+          subject: data.subject,
+          message: data.message,
+        },
+        "wEaA7soL5JScbIT7s" // Public key
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          alert("Message sent successfully!");
+          reset();
+        },
+        (error) => {
+          console.error(error.text);
+          alert("Failed to send message. Try again later.");
+        }
+      );
   };
 
   const contactInfo = [
@@ -111,7 +131,7 @@ const Contact = () => {
           >
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
-                <div>
+                <div className='relative'>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
                     Name *
                   </label>
@@ -122,11 +142,11 @@ const Contact = () => {
                     className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                   />
                   {errors.name && (
-                    <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+                    <p className="text-red-500 text-sm absolute top-full">{errors.name.message}</p>
                   )}
                 </div>
 
-                <div>
+                <div className='relative'>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
                     Email *
                   </label>
@@ -143,12 +163,12 @@ const Contact = () => {
                     className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                   />
                   {errors.email && (
-                    <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+                    <p className="text-red-500 text-sm  absolute top-full">{errors.email.message}</p>
                   )}
                 </div>
               </div>
 
-              <div>
+              <div className='relative'>
                 <label htmlFor="subject" className="block text-sm font-medium mb-2">
                   Subject *
                 </label>
@@ -159,11 +179,11 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                 />
                 {errors.subject && (
-                  <p className="text-red-400 text-sm mt-1">{errors.subject.message}</p>
+                  <p className="text-red-500 text-sm  absolute top-full">{errors.subject.message}</p>
                 )}
               </div>
 
-              <div>
+              <div className='relative'>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">
                   Message *
                 </label>
@@ -174,7 +194,7 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300 resize-none"
                 />
                 {errors.message && (
-                  <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>
+                  <p className="text-red-500 text-sm  absolute top-full">{errors.message.message}</p>
                 )}
               </div>
 
