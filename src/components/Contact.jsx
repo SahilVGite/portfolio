@@ -20,6 +20,7 @@ const Contact = () => {
         {
           from_name: data.name,
           from_email: data.email,
+          from_phone: data.phone,
           subject: data.subject,
           message: data.message,
         },
@@ -168,6 +169,22 @@ const Contact = () => {
                 </div>
               </div>
 
+              <div className="grid sm:grid-cols-2 gap-6">
+              <div className='relative'>
+                <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                  Phone *
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  {...register('phone', { required: 'Phone is required' })}
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm  absolute top-full">{errors.phone.message}</p>
+                )}
+              </div>
+
               <div className='relative'>
                 <label htmlFor="subject" className="block text-sm font-medium mb-2">
                   Subject *
@@ -182,6 +199,9 @@ const Contact = () => {
                   <p className="text-red-500 text-sm  absolute top-full">{errors.subject.message}</p>
                 )}
               </div>
+              </div>
+
+
 
               <div className='relative'>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">
