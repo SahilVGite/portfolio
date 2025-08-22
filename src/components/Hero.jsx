@@ -137,7 +137,8 @@ const Hero = () => {
                         animate={{ y: [0, 10, 0] }}
                         transition={{ repeat: Infinity, duration: 2 }}
                     >
-                        <ArrowDown size={32} className="text-gray-400" />
+                        <span className='text-gray-400 text-sm'>Scroll Down</span>
+                        <ArrowDown size={32} className="text-gray-400 mar m-auto" />
                     </motion.div>
                 </motion.div>
             </div>

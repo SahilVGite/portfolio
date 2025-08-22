@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Award, BookOpen } from 'lucide-react';
+import { GraduationCap, Award, BookOpen,Building2 } from 'lucide-react';
 
 const Education = () => {
   const educationData = [
     {
-      icon: BookOpen,
+      icon: Building2,
       title: 'Jr. Frontend Developer',
       institution: '4Fox Solutions',
       year: '2024 - Present',

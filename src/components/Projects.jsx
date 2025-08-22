@@ -1,38 +1,86 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Github, Smartphone, Globe, ShoppingCart } from 'lucide-react';
-import {GeneralKnowledgeQuizss, GuessTheNumber, FrontendMentorChallenges} from '../assets/images/';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  ExternalLink,
+  Github,
+  BookOpenCheck,
+  Gamepad2,
+  Swords,
+  BriefcaseBusiness,
+} from "lucide-react";
+import {
+  GeneralKnowledgeQuizss,
+  GuessTheNumber,
+  FrontendMentorChallenges,
+  PortfolioPreview,
+} from "../assets/images/";
 
 const Projects = () => {
   const projects = [
     {
-      title: 'General Knowledge Quiz',
-      description: 'General Knowledge Quiz application with multiple-choice questions and scoring system',
+      title: "Portfolio",
+      description:
+        "My personal portfolio showcasing my skills and projects",
+      image: PortfolioPreview,
+      tech: ["react", "framer-motion", "tailwindcss"],
+      github: "https://github.com/SahilVGite/portfolio",
+      live: "https://sahilvgite.netlify.app/",
+      icon: BriefcaseBusiness,
+    },
+    {
+      title: "General Knowledge Quiz",
+      description:
+        "General Knowledge Quiz application with multiple-choice questions and scoring system",
       image: GeneralKnowledgeQuizss,
-      tech: ['HTML', 'CSS', 'jquery'],
-      github: 'https://github.com/SahilVGite/General-Knowledge-Quiz/tree/main',
-      live: 'https://sahilvgite.github.io/General-Knowledge-Quiz/',
-      icon: Globe,
+      tech: ["HTML", "CSS", "jquery"],
+      github:
+        "https://github.com/SahilVGite/General-Knowledge-Quiz/tree/main",
+      live: "https://sahilvgite.github.io/General-Knowledge-Quiz/",
+      icon: BookOpenCheck,
     },
     {
-      title: 'Guess the Number',
-      description: 'Number guessing game with a simple UI and random number generation',
+      title: "Guess the Number",
+      description:
+        "Number guessing game with a simple UI and random number generation",
       image: GuessTheNumber,
-      tech: ['HTML', 'CSS', 'JS'],
-      github: 'https://github.com/SahilVGite/Guess-the-Number',
-      live: 'https://sahilvgite.github.io/Guess-the-Number/',
-      icon: Globe,
+      tech: ["HTML", "CSS", "JS"],
+      github: "https://github.com/SahilVGite/Guess-the-Number",
+      live: "https://sahilvgite.github.io/Guess-the-Number/",
+      icon: Gamepad2,
     },
     {
-      title: 'Frontend Mentor Challenges',
-      description: 'A collection of solutions to various Frontend Mentor challenges',
+      title: "Frontend Mentor Challenges",
+      description:
+        "A collection of solutions to various Frontend Mentor challenges",
       image: FrontendMentorChallenges,
-      tech: ['HTML', 'CSS', 'JS', 'jquery'],
-      github: 'https://github.com/SahilVGite/Frontend_Mentor_Challenges',
-      live: 'https://sahilvgite.github.io/Frontend_Mentor_Challenges/',
-      icon: Globe,
+      tech: ["HTML", "CSS", "JS", "jquery"],
+      github: "https://github.com/SahilVGite/Frontend_Mentor_Challenges",
+      live: "https://sahilvgite.github.io/Frontend_Mentor_Challenges/",
+      icon: Swords,
     },
   ];
+
+  const [rows, setRows] = useState(1); // initially show 1 row
+  const [cardsPerRow, setCardsPerRow] = useState(3);
+
+  // detect screen size for cards per row
+  const updateCardsPerRow = () => {
+    if (window.innerWidth >= 1024) setCardsPerRow(3); // desktop
+    else if (window.innerWidth >= 768) setCardsPerRow(2); // tablet
+    else setCardsPerRow(1); // mobile
+  };
+
+  useEffect(() => {
+    updateCardsPerRow();
+    window.addEventListener("resize", updateCardsPerRow);
+    return () => window.removeEventListener("resize", updateCardsPerRow);
+  }, []);
+
+  const visibleProjects = projects.slice(0, rows * cardsPerRow);
+
+  const handleReadMore = () => {
+    setRows((prev) => prev + 1); // reveal one more row
+  };
 
   return (
     <section id="projects" className="py-20">
@@ -53,7 +101,7 @@ const Projects = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {visibleProjects.map((project, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
@@ -118,6 +166,18 @@ const Projects = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Read More Button */}
+        {visibleProjects.length < projects.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={handleReadMore}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+            >
+              Show More
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
